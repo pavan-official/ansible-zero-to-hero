@@ -1,0 +1,15 @@
+---
+# tasks file for httpd
+  - name: Install Apache HTTP server
+    ansible.builtin.apt:
+      name: apache2
+      state: present
+      update_cache: yes
+  - name: Copy custom index.html to Apache root
+    ansible.builtin.copy:
+      src: files/index.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: '0644'
+    notify: Restart Apache

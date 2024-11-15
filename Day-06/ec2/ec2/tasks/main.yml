@@ -1,7 +1,5 @@
---- 
-- hosts: localhost
-  connection: local
-  tasks:
+---
+# tasks file for ec2
   - name: start an instance with a public IP address
     amazon.aws.ec2_instance:
       name: "ansible-instance"

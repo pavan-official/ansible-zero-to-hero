@@ -1,0 +1,19 @@
+---
+- name: Attach IAM policy to all users in AWS account
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: List IAM users in AWS account
+      amazon.aws.iam_user_info:
+      register: result
+
+    - name: Create each user and attach a managed policy
+      amazon.aws.iam_user:
+        name: "{{ item.user_name }}"
+        managed_policies:
+          - "arn:aws:iam::aws:policy/AdministratorAccess-AWSElasticBeanstalk"  # Replace with your desired policy ARN
+        state: present
+      loop: "{{ result.iam_users }}"
+      loop_control:
+        label: "{{ item.user_name }}"

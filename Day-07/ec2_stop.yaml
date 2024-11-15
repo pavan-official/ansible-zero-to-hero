@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Print the operating system family
+      ansible.builtin.debug:
+        msg: "The OS family is {{ ansible_facts['os_family'] }}"
+
+    - name: Shutdown Ubuntu instances only
+      ansible.builtin.command:
+        cmd: /sbin/shutdown -h now
+      when: ansible_facts['os_family'] == "RedHat"
